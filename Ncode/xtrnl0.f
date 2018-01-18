@@ -71,7 +71,32 @@
 *
 *       Consider alternatives: circular point-mass orbit or 3D galaxy model.
    20 ZMTOT = ZMASS*ZMBAR
-      IF (KZ(14).EQ.2) THEN
+c________________MTadd   (modified to read dimensionless tidal radius following Douglas Heggie's coding
+c Modified dch 21/7/5
+c Modified MM 1-8-2015
+      IF (KZ(14).EQ.2.or.kz(14).eq.-2) THEN
+
+         write(*,*) 'START ', KZ(22)
+*____________________________________________
+         if((KZ(22).EQ.3).or.(KZ(22).eq.4)) THEN
+
+            write(*,*) 'START INIT TIDAL RADIUS CUSTOM'
+*     Read tidal radius (nbody units)
+            READ (5,*) rtide
+            omega = 1./sqrt(3*rtide**3)
+            TIDAL(1) = 3.0*OMEGA**2
+            TIDAL(2) = 0.0D0
+            TIDAL(3) = -OMEGA**2
+            TIDAL(4) = 2.0*OMEGA
+
+            GMG = 0.            !should be unnecessary
+
+            write(*,*) 'TIDAL RADIUS CUSTOM INIT DONE!!!'
+*
+*______________________________________________
+         else                   !go on as usual
+
+c--------------endMTadd-------------------------
 *
 *       Read galaxy mass and central distance (solar units and kpc).
           READ (5,*)  GMG, RG0
@@ -106,7 +131,8 @@
           END IF
 *
           WRITE (6,35)  GMG, RG0, OMEGA, RTIDE, RBAR
-*
+
+      endif             !MTadd (closes if statement added above)
 *       Perform an energy scaling iteration to include ETIDE (once is OK).
       E0 = -0.25
       CALL XTRNLV(1,N)
