@@ -1,6 +1,6 @@
-#avx       = enable
-chainmode = archain
-ksblock   = on
+avx       = enable
+#chainmode = archain
+#ksblock   = on
 
 ifeq ($(avx), enable)
 MKOPTIONS += avx=enable
@@ -35,9 +35,8 @@ FFLAGS   += -mavx
 CXXFLAGS += -mavx
 endif
 
-CUDA_PATH = /usr/local/cuda
-#SDK_PATH  = /usr/local/cuda_sdk
-SDK_PATH  = /usr/local/cuda/samples
+CUDA_PATH = /usr/local/easybuild/software/CUDA/7.0.28-GCC-4.9.2
+SDK_PATH  = $(CUDA_PATH)/samples
 
 NVCC = $(CUDA_PATH)/bin/nvcc
 NVCC += -arch=sm_20 -Xptxas -v
