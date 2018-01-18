@@ -412,6 +412,11 @@
       IF (KZ(1).EQ.2.AND.NSUB.EQ.0) THEN
           IF (IOUT.GT.0) CALL MYDUMP(1,1)
       END IF
+
+*     (dumb) sequential dump every 10 Tdyn
+      IF(MOD(INT(TTOT),10).EQ.0) THEN
+         IF (KZ(2).GE.1.AND.NSUB.EQ.0) CALL MYDUMP(1,INT(TTOT+1000000))
+      ENDIF
 *
 *       Check termination criteria (TIME > TCRIT, N <= NCRIT & next TADJ).
       IF (TTOT.GE.TCRIT.OR.N.LE.NCRIT.OR.TTOT+DTADJ.GT.TCRIT) THEN
