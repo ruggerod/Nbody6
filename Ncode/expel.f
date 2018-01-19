@@ -293,7 +293,7 @@
    13       FORMAT (' MASSLESS GHOST    NAM K* M ',I6,I4,1P,E10.2)
 *
 *       Include special treatment for velocity kick of KS binary.
-          ELSE IF (KW1.GE.10.OR.ISKIP.GT.0) THEN
+          ELSE IF (KW1.GE.13.OR.ISKIP.GT.0) THEN
 *
               IF (ECC.LE.0.001D0) KSTAR(N+IPAIR) = 10
 *       Re-initialize the KS solution with new perturber list.
