@@ -60,6 +60,15 @@
           W2 = X(2,J) - X(2,I)
           W3 = X(3,J) - X(3,I)
           RSEP2 = W1*W1 + W2*W2 + W3*W3
+c___________________________
+c MTadd: new addition for improving bh calculations
+           IF (RSEP2.LT.25.0*RCRIT2.AND.BODY(J).GT.0.005) THEN
+              NNB1 = NNB1 + 1
+              LIST(NNB1,I1) = J  !bh is included as perturber even ifit is more distant...
+              GO TO 10
+           END IF
+c---------------------------  
+
 *       Include any merged c.m. or chain c.m. bodies in the fast test.
           IF (RSEP2.LT.RCRIT2.OR.NAME(J).LE.0) THEN
 *       Estimate unperturbed distance from tidal limit approximation.

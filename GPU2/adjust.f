@@ -181,7 +181,7 @@
           RMIN0 = RMIN
 *
 *       Form close encounter distance from scale factor & density contrast.
-          RMIN = 4.0*RSCALE/(FLOAT(N)*RHOD**0.3333)
+          RMIN = 4.0*RSCALE/(FLOAT(N)*MIN(RHOD,3.0D0)**0.333) !! MTaddmodified for IMBH
 *       Include alternative expression based on core radius (experimental).
           IF (KZ(16).GT.1.AND.NC.LT.0.01*N) THEN
               RMIN = MAX(RMIN,0.01*RC/FLOAT(NC)**0.3333)
