@@ -27,6 +27,8 @@
 *
       INCLUDE 'common6.h'
       EXTERNAL MERGE
+
+      call load_snap() !MTadd (load a snapshot time table for custom output)
 *
 *
 *       Initialize the timers.
@@ -63,6 +65,8 @@
               CALL MODIFY(KSTART)
           END IF
       END IF
+
+      call save_snap()           !MTadd (save snapshot in custom format)
 *
 *       Advance solutions until next output or change of procedure.
     1 CALL INTGRT
@@ -102,6 +106,8 @@
           ISUB = 0
           CALL CHAIN(ISUB)
       END IF
+
+      call save_snap()           !MTadd (save snapshot in custom format)
 *
 *       Continue integration.
       GO TO 1
