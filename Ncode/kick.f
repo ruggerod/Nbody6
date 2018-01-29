@@ -56,25 +56,25 @@
 *       Adopt the Maxwellian of Hansen & Phinney (MN 291, 569, 1997) 
 *       for regular NSs, with EC kicks from a Maxwellian with a lower 
 *       peak and BH kicks scaled by fallback. WD kicks depend on #25. 
-*     DISP = 190.D0
-*     VFAC = 0.D0
-*     ECSIG = 20.D0
-*     WDSIG1 = 2.D0
-*     WDSIG2 = 2.D0
-*     WDKMAX = 6.D0
-*     BHFLAG = 2
+      DISP = 190.D0
+      VFAC = 2.5D0 ! 0.D0
+      ECSIG = 0.D0 ! 20.D0
+      WDSIG1 = 0.D0 ! 2.D0
+      WDSIG2 = 0.D0 ! 2.D0
+      WDKMAX = 6.D0
+      BHFLAG = 2
 *
 *       Take a flat distribution between 0-100 km/s for regular NSs, 
 *       scale EC kicks down by a factor of 4 and do not give kicks 
 *       to BHs. WD kicks depend on #25. 
-      DISP = -100.D0
-      VFAC = 0.D0
-      ECSIG = -0.25D0
-      WDSIG1 = 2.D0
-      WDSIG2 = 2.D0
-      WDKMAX = 6.D0
-      BHFLAG = 0
-      BHFLAG = 2
+C       DISP = -100.D0
+C       VFAC = 0.D0
+C       ECSIG = -0.25D0
+C       WDSIG1 = 2.D0
+C       WDSIG2 = 2.D0
+C       WDKMAX = 6.D0
+C       BHFLAG = 0
+C       BHFLAG = 2
 *
 *       Save orbital parameters in case of KS binary (called from KSAPO).
       IF (ICASE.EQ.0) THEN
@@ -108,7 +108,9 @@
           END IF
           RI = R(IPAIR)
 *       Skip on #25 = 0/1 for consistent net WD modification of EKICK.
-          IF (KW.LT.13.AND.KZ(25).EQ.0) GO TO 30
+C           IF (KW.LT.13.AND.KZ(25).EQ.0) GO TO 30
+          IF ((KW.LT.13.AND.KZ(25).EQ.0).OR.
+     &        (KW.EQ.12.AND.KZ(25).NE.2)) GO TO 30
 *       Sum whole binding energy (used by BINOUT for net change).
           EKICK = EKICK + EB
           EGRAV = EGRAV + EB
@@ -220,25 +222,28 @@
 *
 *       Limit kick velocity to VDIS+10*VSTAR/10*VST.
 *       (disabled)
-      IF (IPAIR.GT.0) THEN
-          VBF = SQRT(VDIS**2 + 100.0*VSTAR**2)
+C       IF (IPAIR.GT.0) THEN
+C           VBF = SQRT(VDIS**2 + 100.0*VSTAR**2)
 *       Include large kick velocity to ensure escape of disrupted star.
-          IF (KW.LT.10.OR.(KW.LT.13.AND.KZ(25).EQ.0)) VKICK = 1.0*VBF
+C           IF (KW.LT.10.OR.(KW.LT.13.AND.KZ(25).EQ.0)) VKICK = 1.0*VBF
 *         VKICK = MIN(VKICK,VBF)
 *         VKICK = MAX(VKICK,VDIS+3.0*VSTAR)
-      ELSE
+C       ELSE
 *         VKICK = MIN(VKICK,10.0D0*VSTAR)
 *       Ensure escape of massless star.
-          IF (BODY(I).EQ.0.0D0) VKICK = 10.0*VSTAR
-      END IF
+C           IF (BODY(I).EQ.0.0D0) VKICK = 10.0*VSTAR
+C       END IF
 *
-      IF (VKICK.NE.VK(4)) THEN
-         DO K = 1,3
-            VK(K) = VK(K)*VKICK/VK(4)
-         ENDDO
-         VK2 = VKICK*VKICK
-         VK(4) = VKICK
-      END IF
+*     Ensure escape of massless star.
+      IF (IPAIR.LE.0.AND.BODY(I).EQ.0.0D0) VKICK = 10.0*VSTAR
+
+C       IF (VKICK.NE.VK(4)) THEN
+C          DO K = 1,3
+C             VK(K) = VK(K)*VKICK/VK(4)
+C          ENDDO
+C          VK2 = VKICK*VKICK
+C          VK(4) = VKICK
+C       END IF
 *
 *       Skip case of zero kick velocity.
       IF (VKICK.EQ.0.0D0.OR.DISP0.EQ.0.0D0) GO TO 30
@@ -260,7 +265,7 @@
 *
 *       Evaluate binary kick energy from relative velocity (diagnostics).
       IF (IPAIR.GT.0) THEN
-          IF (I.GT.IFIRST) GO TO 30
+C           IF (I.GT.IFIRST) GO TO 30
           JP = KVEC(I)
           J = I + 1
           IF (I.EQ.2*JP) J = I - 1
@@ -282,14 +287,14 @@
           IPAIR = 0
       END IF
 *
-      IF (NKICK.LT.50.OR.NAME(I).LE.2*NBIN0.OR.
-     &    (KW.GE.13.AND.TTOT*TSTAR.GT.100.0)) THEN
+C       IF (NKICK.LT.50.OR.NAME(I).LE.2*NBIN0.OR.
+C      &    (KW.GE.13.AND.TTOT*TSTAR.GT.100.0)) THEN
           WRITE (6,20)  I, NAME(I), KSTAR(I), KC, BODY0(I)*ZMBAR, ZM,
      &                  SQRT(VI2)*VSTAR, VKICK*VSTAR, SQRT(VF2)*VSTAR
    20     FORMAT (' VELOCITY KICK:    I NAM K* KC* M0 M VI VK VF ',
      &                                2I6,2I4,2F7.2,3F7.1)
           KC = 0
-      END IF
+C       END IF
 *
 *       Highlight BH/NS velocities below 4 times rms velocity.
       IF (VKICK.LT.4.0*SQRT(0.5).AND.KW.GE.13.AND.VKICK.GT.0.05) THEN
