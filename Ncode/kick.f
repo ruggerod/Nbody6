@@ -57,12 +57,12 @@
 *       for regular NSs, with EC kicks from a Maxwellian with a lower 
 *       peak and BH kicks scaled by fallback. WD kicks depend on #25. 
       DISP = 190.D0
-      VFAC = 2.5D0 ! 0.D0
+      VFAC = 1.D0 ! 0.D0
       ECSIG = 0.D0 ! 20.D0
       WDSIG1 = 0.D0 ! 2.D0
       WDSIG2 = 0.D0 ! 2.D0
       WDKMAX = 6.D0
-      BHFLAG = 2
+      BHFLAG = 1
 *
 *       Take a flat distribution between 0-100 km/s for regular NSs, 
 *       scale EC kicks down by a factor of 4 and do not give kicks 

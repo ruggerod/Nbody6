@@ -5,7 +5,7 @@ c 	the snapshots should be saved must be present in the output
 c	folder
 
       integer LTBM,Ltable,Ltablemax
-      parameter(LTBM=20000)
+      parameter(LTBM=100000)
 
       real table
       common /tbl/ Ltable,Ltablemax,table(LTBM)

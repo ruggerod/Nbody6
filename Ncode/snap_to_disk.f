@@ -48,7 +48,7 @@ C___________________________ table for saving snapshot
       if((ttot.gt.table(ltable)).and.ltable.lt.ltablemax) then
  
          !loop to avoid multiple writings associated with restart
-         do iii=0,10000
+         do iii=0,ltablemax-1
             ltable = ltable+1
             if((ttot.lt.table(ltable)).or.(ltable.ge.ltablemax)) then
                goto 543
