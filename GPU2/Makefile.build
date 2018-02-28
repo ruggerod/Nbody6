@@ -11,8 +11,7 @@ else
 FFLAGS += -march=core2
 endif
 
-#LIBCUDA = -L /usr/local/easybuild/software/CUDA/7.0.28-GCC-4.9.2/lib64 -lcudart
-LIBCUDA = -L /usr/local/easybuild/software/CUDA/8.0.44-GCC-4.9.2/lib64 -lcudart
+LIBCUDA = -L /usr/local/cuda-7.5/lib64 -lcudart
 
 GC = gfortran
 

@@ -1,4 +1,4 @@
-avx       = enable
+#avx       = enable
 #chainmode = archain
 #ksblock   = on
 
@@ -35,8 +35,7 @@ FFLAGS   += -mavx
 CXXFLAGS += -mavx
 endif
 
-#CUDA_PATH = /usr/local/easybuild/software/CUDA/7.0.28-GCC-4.9.2
-CUDA_PATH = /usr/local/easybuild/software/CUDA/8.0.44-GCC-4.9.2
+CUDA_PATH = /usr/local/cuda-7.5
 SDK_PATH  = $(CUDA_PATH)/samples
 
 NVCC = $(CUDA_PATH)/bin/nvcc
